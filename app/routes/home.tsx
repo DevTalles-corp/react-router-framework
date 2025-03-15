@@ -1,13 +1,20 @@
-import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
+import type { Route } from './+types/home';
+import { Welcome } from '../welcome/welcome';
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: 'Bienvenido a React Router!!!!' },
+    { name: 'description', content: 'Bienvenido a React Router!!!!' },
   ];
 }
 
 export default function Home() {
-  return <Welcome />;
+  return (
+    <div>
+      <h1 className="text-4xl font-thin">Bienvenido a React Router!</h1>
+      <p className="text-lg">
+        Este es un proyecto de React Router creado con el comando de Vite.
+      </p>
+    </div>
+  );
 }
