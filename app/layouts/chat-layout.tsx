@@ -1,11 +1,23 @@
 import { Outlet } from 'react-router';
 import { X, LogOut } from 'lucide-react';
 
-import { Button } from '~/components/ui/button';
-import { ContactList } from '../chat/component/ContactList';
-import { ContactInformationCard } from '~/chat/component/contact-information-card/ContactInformationCard';
+import type { Route } from './+types/chat-layout';
 
-export default function ChatLayout() {
+import { Button } from '~/components/ui/button';
+import { ContactList } from '../chat/components/ContactList';
+import { ContactInformationCard } from '~/chat/components/contact-information-card/ContactInformationCard';
+
+import { getClients } from '~/fake/fake-data';
+
+export async function loader() {
+  const clients = await getClients();
+  console.log(clients);
+  return { clients };
+}
+
+export default function ChatLayout({ loaderData }: Route.ComponentProps) {
+  const { clients } = loaderData;
+
   return (
     <div className="flex h-screen bg-background">
       {/* Sidebar */}
@@ -17,7 +29,7 @@ export default function ChatLayout() {
           </div>
         </div>
 
-        <ContactList />
+        <ContactList clients={clients} />
 
         <div className="p-4 border-t">
           <Button variant="default" className="w-full text-center">
