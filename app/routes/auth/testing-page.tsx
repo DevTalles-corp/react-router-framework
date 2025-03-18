@@ -1,4 +1,10 @@
-import { Form, Link, NavLink } from 'react-router';
+import {
+  Form,
+  Link,
+  NavLink,
+  useFormAction,
+  useNavigation,
+} from 'react-router';
 import type { Route } from './+types/testing-page';
 import { sleep } from '~/lib/sleep';
 
@@ -53,12 +59,15 @@ export async function clientLoader({ serverLoader }: Route.ClientLoaderArgs) {
   };
 }
 
-export default function MyRouteComponent({
+export default function TestingPage({
   loaderData,
   actionData,
   params,
   matches,
 }: Route.ComponentProps) {
+  const navigation = useNavigation();
+  const isPosting = navigation.state === 'submitting';
+
   return (
     <div>
       <h1 className="font-bold text-2xl">Testing Page</h1>
@@ -90,8 +99,12 @@ export default function MyRouteComponent({
           type="text"
           name="age"
         />
-        <button className="bg-blue-500 text-white rounded-md p-2" type="submit">
-          Submit
+        <button
+          disabled={isPosting}
+          className="bg-blue-500 text-white rounded-md p-2 disabled:opacity-50"
+          type="submit"
+        >
+          {isPosting ? 'Submitting...' : 'Submit'}
         </button>
       </Form>
     </div>
