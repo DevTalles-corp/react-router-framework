@@ -1,4 +1,4 @@
-import { Link } from 'react-router';
+import { Link, NavLink } from 'react-router';
 import type { Route } from './+types/testing-page';
 
 export async function loader() {
@@ -32,12 +32,16 @@ export default function MyRouteComponent({
       <p>Route Parameters: {JSON.stringify(params)}</p>
       <p>Matched Routes: {JSON.stringify(matches)}</p>
 
-      <Link
-        to="/auth/testing-args"
-        className="text-blue-500 underline text-2xl"
+      <NavLink
+        to="/auth/testing-args/ABC-123/Juan/25"
+        className={({ isPending }) =>
+          isPending
+            ? 'text-red-500 underline text-2xl'
+            : 'text-blue-500 underline text-2xl'
+        }
       >
         Testing Args
-      </Link>
+      </NavLink>
     </div>
   );
 }
