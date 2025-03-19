@@ -11,7 +11,7 @@ import { getClients } from '~/fake/fake-data';
 
 export async function loader() {
   const clients = await getClients();
-  console.log(clients);
+  // console.log(clients);
   return { clients };
 }
 
