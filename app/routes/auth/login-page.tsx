@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { data, Form, Link, redirect, useNavigate } from 'react-router';
 
 import { Button } from '~/components/ui/button';
@@ -37,11 +38,23 @@ export async function action({ request }: Route.ActionArgs) {
 
   if (email === 'algo@google.com') {
     session.flash('error', 'Invalid email');
-    return redirect('/auth/login?error=Invalid Email', {
-      headers: {
-        'Set-Cookie': await commitSession(session),
+    // return redirect('/auth/login?error=Invalid Email', {
+    //   headers: {
+    //     'Set-Cookie': await commitSession(session),
+    //   },
+    // });
+    return data(
+      {
+        error: 'Invalid Email!!!',
       },
-    });
+      {
+        headers: {
+          'Set-Cookie': await commitSession(session),
+        },
+        status: 400,
+        statusText: 'Bad Request',
+      }
+    );
   }
 
   session.set('userId', 'U1-12345');
@@ -55,12 +68,20 @@ export async function action({ request }: Route.ActionArgs) {
   });
 }
 
-const LoginPage = () => {
+const LoginPage = ({ actionData }: Route.ComponentProps) => {
   const navigate = useNavigate();
+
+  console.log('🚀 actionData', actionData?.error);
 
   const onAppleSignIn = () => {
     navigate('/auth/testing');
   };
+
+  useEffect(() => {
+    if (actionData?.error) {
+      alert(actionData.error);
+    }
+  }, [actionData]);
 
   return (
     <div className="flex flex-col gap-6">
