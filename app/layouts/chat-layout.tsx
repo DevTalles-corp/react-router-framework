@@ -7,25 +7,32 @@ import { Button } from '~/components/ui/button';
 import { ContactList } from '../chat/components/ContactList';
 import { ContactInformationCard } from '~/chat/components/contact-information-card/ContactInformationCard';
 
-import { getClients } from '~/fake/fake-data';
+import { getClient, getClients } from '~/fake/fake-data';
 import { getSession } from '~/sessions.server';
 
-export async function loader({ request }: Route.LoaderArgs) {
+export async function loader({ request, params }: Route.LoaderArgs) {
   const session = await getSession(request.headers.get('Cookie'));
 
   const userName = session.get('name');
+  const { id } = params;
 
   if (!session.has('userId')) {
     return redirect('/auth/login');
   }
 
   const clients = await getClients();
+
+  if (id) {
+    const client = await getClient(id);
+    return { client, userName, clients };
+  }
+
   // console.log(clients);
   return { clients, userName };
 }
 
 export default function ChatLayout({ loaderData }: Route.ComponentProps) {
-  const { clients, userName } = loaderData;
+  const { clients, userName, client } = loaderData;
 
   return (
     <div className="flex h-screen bg-background">
