@@ -80,7 +80,10 @@ export default function MyRouteComponent({
 
   return (
     <div>
-      <h1 className="font-bold text-2xl">Testing Args Page</h1>
+      <h1 className="font-bold text-4xl">Name: {name}</h1>
+      <h1 className="font-bold text-3xl">Age: {age}</h1>
+      <h1 className="font-bold text-2xl">Id: {id}</h1>
+
       <p>Loader Data: {JSON.stringify(loaderData)}</p>
       <p>Action Data: {JSON.stringify(actionData)}</p>
       <p>Route Parameters: {JSON.stringify(params)}</p>
